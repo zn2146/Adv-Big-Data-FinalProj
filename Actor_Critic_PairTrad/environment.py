@@ -6,7 +6,7 @@ import csv
 
 verbose = False
 '''
-Define the get_data function to store the data into the DataFrame
+Define the get_data function to store data
 '''
 def get_data(symbols, dates_range, update):
     import os
@@ -30,14 +30,11 @@ def get_data(symbols, dates_range, update):
                 df[symbol] = data['Close']
             else:
                 df[symbol] = data['Rate']
-    #print(df)
     return df[df.index.isin(dates_range)].sort_index()
 
 
 
-'''
-Define the Simulator class 
-'''
+
 
 class Simulator(object):
 
@@ -50,7 +47,6 @@ class Simulator(object):
         self.dates_range = pd.date_range(start_date, end_date)
         print(self.dates_range)
 
-        #clare the initial cash amount
         self.init_cash = 100000
 
         #keep the information of the portfolio for visualization
@@ -75,10 +71,7 @@ class Simulator(object):
 
         self.prices = prices_all[stock_symbols]
         self.prices_SPY = prices_all['spy']
-        #self.prices_VIX = prices_all['vix']
-        #self.prices_interest_rate = prices_all['interest_rates']
 
-        # keep track of portfolio value as a series
         self.portfolio = {'cash': self.init_cash, 'a_vol': [], 'a_price': [], 'b_vol': [], 'b_price': [], 'longA': 0}
         self.port_val = self.port_value_for_output()
 
@@ -98,13 +91,7 @@ class Simulator(object):
 
     def step(self, action):
 
-        """
-        For every step forward, accrement the date for one step, record the reward of
-        the action and the date.
-        We define the action as: Buy, Sell, Hold
-        RETURN:(reward, status)
 
-        """
 
         buy_volume = 100
         abs_return_A = 0
@@ -255,10 +242,7 @@ class Simulator(object):
         return (reward, state)
 
     def get_state(self, date):
-        """
-        return state of the market, i.e. prices of certain symbols,
-        number of shares hold
-        """
+
         if date not in self.dates_range:
             if verbose: print('Date was out of bounds.')
             if verbose: print(date)
@@ -268,7 +252,7 @@ class Simulator(object):
             self.port_val / self.init_cash - 1,
             ]
 
-    # calculate the current value of cash and stock holdings
+
     def port_value(self):
         value = self.portfolio['cash']
         if (len(self.portfolio['a_vol']) > 0):
@@ -279,7 +263,7 @@ class Simulator(object):
                 value += (self.portfolio['b_vol'][i] * self.portfolio['b_price'][i])
         return value
 
-    # Change the portfolio value
+
     def port_value_for_output(self):
         value = self.portfolio['cash']
         if (self.portfolio['longA'] > 0):
