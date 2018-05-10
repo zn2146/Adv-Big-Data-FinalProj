@@ -69,7 +69,7 @@ history = model.fit(
     validation_split=0.1, callbacks=[checkpointer])
 
 
-summarize history for accuracy
+#summarize history for accuracy
 plt.plot(history.history['loss'])
 plt.plot(history.history['val_loss'])
 plt.title('model loss as steps')
