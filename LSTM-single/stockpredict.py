@@ -82,7 +82,6 @@ model = load_model('./model/lstm_1.h5')
 
 
 def predict(model, data, Z, Y):
-    #Predict sequence of 50 steps before shifting prediction run forward by 50 steps
     predicted_seqs = []
     predicted_prices = []
     truth = []
@@ -128,7 +127,7 @@ plt.ylabel('Next day price')
 plt.xlabel('days')
 plt.legend()
 
-# plt.savefig('test_f5.png')
+# plt.savefig('test.png')
 plt.show()
 
 
